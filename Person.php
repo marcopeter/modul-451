@@ -23,7 +23,14 @@ class Person {
     }
 
     public function setForename($forename) {
-        $this->forename = $forename;
+                
+        preg_match("/^[a-zA-Z-]{1,255}$/", $forename, $output_array);
+        if(!in_array($forename, $output_array)){
+           return "Vorname muss mindestens 1 und höchstens 255 Zeichen haben.";
+        } else {
+            $this->forename = $forename;
+        }
+        
     }
 
     public function getLastname() {
@@ -31,7 +38,14 @@ class Person {
     }
 
     public function setLastname($lastname) {
-        $this->lastname = $lastname;
+        
+        preg_match("/^[a-zA-Z-]{1,255}$/", $lastname, $output_array);
+        if(!in_array($lastname, $output_array)){
+           return "Nachname muss mindestens 1 und höchstens 255 Zeichen haben.";
+        } else {
+            $this->lastname = $lastname;
+        }
+        
     }
 
     public function getAge() {
@@ -39,7 +53,13 @@ class Person {
     }
 
     public function setAge($age) {
-        $this->age = $age;
+        
+        if($age < 18 || $age > 99){
+             return "Alter muss zwischen 18 und 99 liegen und Sie müssen mindestns 18 Jahre sein.";
+        } else {
+            $this->age = $age;
+        }
+        
     }
 
 }

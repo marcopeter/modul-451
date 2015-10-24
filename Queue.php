@@ -11,11 +11,12 @@
  * 
  * @author marco
  */
+session_start();
 class Queue {
     private $queueList = array();
     
     function __construct() {
-        if(!$_SESSION['personArr']) {
+        if(!$_SESSION) {
             $_SESSION['personArr'] = array();
         }
         $this->queueList = $_SESSION['personArr'];
@@ -23,8 +24,16 @@ class Queue {
     }
     
     public function add($personObj){
-        $this->queueList[] = serialize($personObj);
-        $_SESSION['personArr'] = $this->queueList;
+        
+        $result = false;
+        
+        if(is_object($personObj)){
+            $this->queueList[] = serialize($personObj);
+            $_SESSION['personArr'] = $this->queueList;
+            $result = true;
+        }
+        
+        return $result;
     }
     
     public function remove(){

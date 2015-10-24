@@ -35,15 +35,25 @@ class Main {
     }
     
     public function queuePerson($person){
+        $error = array();
         
         if($person){
-            $this->personObj->setForename($person['forename']);
-            $this->personObj->setLastname($person['lastname']);
-            $this->personObj->setAge($person['age']);
+            $error[] = $this->personObj->setForename($person['forename']);
+            $error[] = $this->personObj->setLastname($person['lastname']);
+            $error[] = $this->personObj->setAge($person['age']);
 
-            $this->queueObj->add($this->personObj);
+            $error = array_filter($error);
+            
+            if(empty($error)){
+                $this->queueObj->add($this->personObj);
+                $result = true;
+            } else {
+                $this->tpl->error = $error;
+            }
+            
+            
         }
-        echo $this->tpl->render('view/queuePerson.php');        
+        echo $this->tpl->render('view/queuePerson.php');     
         
     }
     
@@ -58,6 +68,6 @@ class Main {
         echo $this->tpl->render('view/callPerson.php');
         
     }
-    
+        
 }
 ?>
